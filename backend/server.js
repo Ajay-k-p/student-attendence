@@ -11,7 +11,7 @@ const app = express();
 // ✅ ALLOWED FRONTEND ORIGINS
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://student-attendence-kappa.vercel.app"
+  "https://student-attendence-kappa.vercel.app/"
 ];
 
 // ✅ CORS CONFIG (FIXED)
