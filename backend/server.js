@@ -8,9 +8,17 @@ const attendanceRoutes = require('./routes/attendanceRoutes');
 
 const app = express();
 
-// Middleware
+// ✅ CORS FIX FOR VERCEL
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://student-attendance-kappa.vercel.app" // 👈 YOUR VERCEL URL
+  ], 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
-app.use(cors());
 
 // Database
 connectDB();
