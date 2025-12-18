@@ -14,25 +14,23 @@ const allowedOrigins = [
   "https://student-attendence-kappa.vercel.app"
 ];
 
-// ✅ CORS CONFIG (IMPORTANT)
+// ✅ CORS CONFIG (FIXED)
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow REST tools like Postman
+    origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+        return callback(null, true);
       }
+      return callback(new Error("CORS not allowed"));
     },
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
-// ✅ HANDLE PREFLIGHT REQUESTS
+// ✅ PRE-FLIGHT SUPPORT
 app.options("*", cors());
 
 // Middleware
@@ -46,6 +44,6 @@ app.use("/api/students", studentRoutes);
 app.use("/api/attendance", attendanceRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on port ${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
