@@ -11,27 +11,32 @@ const app = express();
 // ✅ ALLOWED FRONTEND ORIGINS
 const allowedOrigins = [
   "http://localhost:3000",
+<<<<<<< HEAD
   "https://student-attendence-kappa.vercel.app/"
+=======
+  "https://student-attendance-kappa.vercel.app/"
+>>>>>>> aeebdfe (Fix CORS and finalize production URLs)
 ];
 
-// ✅ CORS CONFIG (FIXED)
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("CORS not allowed"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  })
-);
+// ✅ CORS OPTIONS
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("CORS not allowed"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+// ✅ CORS CONFIG
+app.use(cors(corsOptions));
 
 // ✅ PRE-FLIGHT SUPPORT
-app.options("*", cors());
+app.options("*", cors(corsOptions));
 
 // Middleware
 app.use(express.json());
