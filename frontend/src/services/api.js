@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: "https://student-attendance-backend.onrender.com/api" });
+const API = axios.create({ baseURL: "http://localhost:5000/api" });
 
 // Student Routes
 export const fetchStudents = () => API.get('/students');

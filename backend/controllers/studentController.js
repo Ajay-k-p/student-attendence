@@ -3,8 +3,8 @@ const Student = require('../models/Student');
 // 1. Add New Student
 exports.addStudent = async (req, res) => {
     try {
-        const { name, rollNo, classInfo } = req.body;
-        const newStudent = new Student({ name, rollNo, classInfo });
+        const { name, rollNo } = req.body;
+        const newStudent = new Student({ name, rollNo });
         await newStudent.save();
         res.status(201).json(newStudent);
     } catch (error) {
@@ -26,10 +26,10 @@ exports.getAllStudents = async (req, res) => {
 // 3. Update Student
 exports.updateStudent = async (req, res) => {
     try {
-        const { name, rollNo, classInfo } = req.body;
+        const { name, rollNo } = req.body;
         const updatedStudent = await Student.findByIdAndUpdate(
-            req.params.id, 
-            { name, rollNo, classInfo }, 
+            req.params.id,
+            { name, rollNo },
             { new: true }
         );
         if (!updatedStudent) return res.status(404).json({ error: 'Student not found' });

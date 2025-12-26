@@ -3,7 +3,7 @@ import { addStudent, fetchStudents, deleteStudent, updateStudent } from '../serv
 
 const AddStudent = ({ refreshList }) => {
     const [students, setStudents] = useState([]);
-    const [form, setForm] = useState({ name: '', rollNo: '', classInfo: '' });
+    const [form, setForm] = useState({ name: '', rollNo: '' });
     const [editingId, setEditingId] = useState(null); // Track if we are editing
 
     // Load students on mount
@@ -34,7 +34,7 @@ const AddStudent = ({ refreshList }) => {
                 await addStudent(form);
                 alert("Student Added Successfully");
             }
-            setForm({ name: '', rollNo: '', classInfo: '' });
+            setForm({ name: '', rollNo: '' });
             loadStudents(); // Refresh local list
             if (refreshList) refreshList(); // Refresh parent dashboard
         } catch (error) {
