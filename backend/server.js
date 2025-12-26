@@ -6,31 +6,33 @@ const connectDB = require("./config/db");
 const studentRoutes = require("./routes/studentRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 
-// Require models to register them with mongoose
+// Register models
 require("./models/Student");
 require("./models/Attendance");
 
 const app = express();
 
 // ===============================
-// CORS CONFIG
+// ✅ CORS CONFIG (FINAL & SAFE)
 // ===============================
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
-  "https://student-attendence-kappa.vercel.app/",
   "http://192.168.1.58:3000",
+  "https://student-attendence-kappa.vercel.app", // ✅ NO slash
   process.env.FRONTEND_URL
-];
+].filter(Boolean); // removes undefined
 
 const corsOptions = {
   origin: (origin, callback) => {
+    // Allow Postman / server-to-server
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
+    console.error("❌ Blocked by CORS:", origin);
     return callback(null, false);
   },
   credentials: true,
@@ -39,10 +41,10 @@ const corsOptions = {
 };
 
 // ===============================
-// MIDDLEWARE
+// ✅ MIDDLEWARE (ORDER MATTERS)
 // ===============================
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // preflight fix
+app.options("*", cors(corsOptions)); // ✅ preflight fix
 app.use(express.json());
 
 // ===============================
